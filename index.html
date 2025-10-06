@@ -1,259 +1,294 @@
 <!DOCTYPE html>
 <html lang="id">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎂 Selamat Ulang Tahun Abang 🎉</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Hadiah Bandel — Untuk Abang 🎁</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      :root {
+        --blue-1: #b3e5fc;
+        --blue-2: #90caf9;
+        --blue-3: #1976d2;
+        --accent: #ffd97d;
+        --card: #ffffffcc;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
       body {
+        height: 100%;
         margin: 0;
-        font-family: "Poppins", sans-serif;
-        color: #0d47a1;
-        overflow: hidden;
-        background: linear-gradient(120deg, #b3e5fc, #64b5f6, #1565c0);
-        background-size: 400% 400%;
-        animation: gradient 10s ease infinite;
+        font-family: Poppins, sans-serif;
+        color: var(--blue-3);
+        background: linear-gradient(120deg, var(--blue-1), var(--blue-2));
         display: flex;
-        justify-content: center;
         align-items: center;
-        height: 100vh;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .wrap {
+        width: min(420px, 94vw);
+        background: var(--card);
+        border-radius: 28px;
+        padding: 24px;
         text-align: center;
-      }
-
-      @keyframes gradient {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
-      .card {
-        background: rgba(255, 255, 255, 0.85);
-        border-radius: 25px;
-        padding: 40px 30px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        width: 90%;
-        max-width: 400px;
-        transition: all 0.3s ease;
+        box-shadow: 0 12px 40px rgba(25, 118, 210, 0.2);
         position: relative;
       }
-
-      h1 {
-        color: #1565c0;
-        font-size: 1.8em;
-        margin-bottom: 20px;
+      h2 {
+        margin-top: 0;
       }
-
-      p {
-        color: #0d47a1;
-        font-size: 1em;
-        margin-bottom: 20px;
-      }
-
       button {
-        background: #64b5f6;
-        border: none;
-        color: white;
-        font-size: 1em;
-        padding: 10px 25px;
-        border-radius: 25px;
+        font-family: inherit;
         cursor: pointer;
-        transition: all 0.2s;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border: none;
       }
-
-      button:hover {
-        background: #1e88e5;
+      .open-btn,
+      .btn,
+      .restart {
+        background: linear-gradient(90deg, var(--blue-2), var(--blue-3));
+        color: #fff;
+        font-weight: 600;
+        border-radius: 12px;
+        padding: 12px 18px;
+        margin-top: 16px;
+        transition: transform 0.2s;
       }
-
+      .btn {
+        background: #fff;
+        color: var(--blue-3);
+        border: 1px solid rgba(9, 30, 66, 0.1);
+      }
+      .btn.primary {
+        background: linear-gradient(90deg, var(--blue-2), var(--blue-3));
+        color: #fff;
+        border: none;
+      }
       .hidden {
         display: none;
       }
-
-      #muteBtn {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: rgba(255, 255, 255, 0.8);
-        color: #1565c0;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 15px;
-        cursor: pointer;
-        font-size: 14px;
+      .playground {
+        position: relative;
+        margin: 20px auto;
+        width: 100%;
+        height: 200px;
+        border-radius: 16px;
+        border: 2px dashed rgba(25, 118, 210, 0.15);
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
-
-      canvas {
+      .run-btn {
+        position: absolute;
+        background: #fff;
+        border: 1px solid rgba(25, 118, 210, 0.2);
+        border-radius: 999px;
+        padding: 10px 16px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      }
+      .final {
+        display: none;
+        margin-top: 20px;
+      }
+      #muteBtn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(25, 118, 210, 0.2);
+        border-radius: 8px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+      canvas.confetti {
         position: fixed;
         top: 0;
         left: 0;
+        pointer-events: none;
         width: 100%;
         height: 100%;
-        pointer-events: none;
-      }
-
-      .emoji {
-        position: absolute;
-        font-size: 24px;
-        animation: float 4s infinite ease-in-out;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-15px);
-        }
       }
     </style>
   </head>
   <body>
-    <canvas id="confetti"></canvas>
+    <div class="wrap">
+      <button id="muteBtn">🔊</button>
+      <div id="cover">
+        <h2>Selamat Ulang Tahun, Abang 🎉</h2>
+        <p>Ada hadiah dari adek. Tapi... hadiahnya bandel dikit 😆</p>
+        <button id="open" class="open-btn">🎁 Buka Hadiah</button>
+      </div>
 
-    <div class="card" id="page1">
-      <h1>🎁 Selamat Ulang Tahun Abang, Ini ada hadiah dari adekk 🎁</h1>
-      <button id="openBtn">Buka</button>
+      <div id="stage1" class="hidden">
+        <p>Lho kok gak kebuka ya? Coba klik tombol yang bener dong 😝</p>
+        <button id="wrong1" class="btn">Buka Sekarang 💥</button>
+        <button id="maybe" class="btn">Nanti Aja 😒</button>
+      </div>
+
+      <div id="stage2" class="hidden">
+        <p>Astaga, salah terus! Adek udah capek bikin ini 😭</p>
+        <button id="trick" class="btn primary">Oke, aku coba lagi</button>
+      </div>
+
+      <div id="stage3" class="hidden">
+        <p>Hehe, ini tombolnya agak nakal. Coba tangkap dia! 😝</p>
+        <div class="playground" id="playground">
+          <button id="runBtn" class="run-btn">Klik untuk buka 🎁</button>
+        </div>
+        <button id="giveup" class="btn">Aku nyerah 😩</button>
+      </div>
+
+      <div class="final" id="final">
+        <h2>🎉 Selamat Ulang Tahun, Abang! 💙</h2>
+        <p>
+          Semoga di umur yang baru ini, Abang selalu sehat, bahagia, dan makin
+          sukses yaa 💪🌟<br />
+          Jangan suka ngelupain makan 😝 dan semoga hal-hal baik terus datang ke
+          hidup Abang 🤍
+        </p>
+        <button id="restart" class="restart">🔁 Main Lagi Yuk</button>
+      </div>
     </div>
 
-    <div class="card hidden" id="page2">
-      <h1>Hehe 😆 Salah tombol!</h1>
-      <p>Coba klik tombol yang bener deh~</p>
-      <button id="trickyBtn">Buka Lagi</button>
-    </div>
-
-    <div class="card hidden" id="page3">
-      <h1>Wkwk... Salah Abang 😝</h1>
-      <p>Coba sekali lagi deh, pasti bisa!</p>
-      <button id="runBtn">Buka Hadiah</button>
-    </div>
-
-    <div class="card hidden" id="finalPage">
-      <h1>🎉 Selamat Ulang Tahun, Abang! 🎂</h1>
-      <p>
-        Hari ini semoga dipenuhi senyum, tawa, dan hal-hal kecil yang bikin
-        Abang bahagia 💙
-      </p>
-      <p>
-        Makasih udah jadi orang yang baik, sabar, dan selalu nyenengin — bahkan
-        waktu Adek lagi iseng 😆
-      </p>
-      <p>
-        Semoga langkah Abang ke depan penuh keberanian, kesehatan, dan rezeki
-        yang lancar ya!
-      </p>
-      <p>🎈 Adek doain yang terbaik buat Abang, selalu! 💙</p>
-    </div>
-
-    <button id="muteBtn">🔊</button>
-
-    <audio id="music" loop>
+    <audio id="bgm" loop preload="auto">
       <source
-        src="https://www.bensound.com/bensound-music/bensound-littleidea.mp3"
+        src="https://www.bensound.com/bensound-music/bensound-ukulele.mp3"
         type="audio/mpeg"
       />
     </audio>
 
+    <canvas class="confetti"></canvas>
+
     <script>
-      const openBtn = document.getElementById("openBtn");
-      const trickyBtn = document.getElementById("trickyBtn");
+      const open = document.getElementById("open");
+      const cover = document.getElementById("cover");
+      const stage1 = document.getElementById("stage1");
+      const stage2 = document.getElementById("stage2");
+      const stage3 = document.getElementById("stage3");
+      const final = document.getElementById("final");
+      const wrong1 = document.getElementById("wrong1");
+      const maybe = document.getElementById("maybe");
+      const trick = document.getElementById("trick");
+      const giveup = document.getElementById("giveup");
       const runBtn = document.getElementById("runBtn");
-      const page1 = document.getElementById("page1");
-      const page2 = document.getElementById("page2");
-      const page3 = document.getElementById("page3");
-      const finalPage = document.getElementById("finalPage");
-      const music = document.getElementById("music");
+      const restart = document.getElementById("restart");
+      const bgm = document.getElementById("bgm");
       const muteBtn = document.getElementById("muteBtn");
 
-      let clickCount = 0;
-      let isMuted = false;
+      let muted = false;
+      let tries = 0;
 
-      openBtn.onclick = () => {
-        page1.classList.add("hidden");
-        page2.classList.remove("hidden");
+      const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+      open.onclick = () => {
+        cover.classList.add("hidden");
+        stage1.classList.remove("hidden");
+        bgm.play().catch(() => {});
       };
 
-      trickyBtn.onclick = () => {
-        page2.classList.add("hidden");
-        page3.classList.remove("hidden");
+      wrong1.onclick = () => {
+        wrong1.textContent = "Heh itu salah 😜";
+        setTimeout(() => (wrong1.textContent = "Buka Sekarang 💥"), 1500);
       };
 
-      function randomPosition(btn) {
-        const x = Math.random() * (window.innerWidth - 150);
-        const y = Math.random() * (window.innerHeight - 150);
-        btn.style.position = "fixed";
-        btn.style.left = `${x}px`;
-        btn.style.top = `${y}px`;
+      maybe.onclick = () => {
+        stage1.classList.add("hidden");
+        stage2.classList.remove("hidden");
+      };
+
+      trick.onclick = () => {
+        stage2.classList.add("hidden");
+        stage3.classList.remove("hidden");
+        moveToRandom(runBtn);
+      };
+
+      // gerak tombol
+      function moveToRandom(el) {
+        const box = document
+          .getElementById("playground")
+          .getBoundingClientRect();
+        const w = el.offsetWidth;
+        const h = el.offsetHeight;
+        const x = Math.random() * (box.width - w - 10);
+        const y = Math.random() * (box.height - h - 10);
+        el.style.left = x + "px";
+        el.style.top = y + "px";
       }
 
-      // tombol "kabur" tapi tetap bisa diklik setelah beberapa kali
-      runBtn.addEventListener("mouseenter", () => {
-        if (!("ontouchstart" in window) && clickCount < 2) {
-          randomPosition(runBtn);
-        }
-      });
-
-      runBtn.addEventListener("click", () => {
-        clickCount++;
-        if (clickCount < 3) {
-          randomPosition(runBtn);
+      runBtn.addEventListener(isTouch ? "click" : "mouseenter", () => {
+        tries++;
+        if ((isTouch && tries >= 3) || (!isTouch && tries >= 4)) {
+          showFinal();
         } else {
-          // tampilkan halaman akhir
-          page3.classList.add("hidden");
-          finalPage.classList.remove("hidden");
-          startConfetti();
-          music.play();
+          moveToRandom(runBtn);
         }
       });
 
-      muteBtn.onclick = () => {
-        isMuted = !isMuted;
-        music.muted = isMuted;
-        muteBtn.textContent = isMuted ? "🔇" : "🔊";
+      giveup.onclick = () => showFinal();
+
+      restart.onclick = () => {
+        final.classList.add("hidden");
+        stage3.classList.add("hidden");
+        cover.classList.remove("hidden");
+        tries = 0;
       };
 
-      // --- Confetti ---
-      const confetti = document.getElementById("confetti");
-      const ctx = confetti.getContext("2d");
-      confetti.width = window.innerWidth;
-      confetti.height = window.innerHeight;
-      const pieces = Array.from({ length: 120 }, () => ({
-        x: Math.random() * confetti.width,
-        y: Math.random() * confetti.height,
-        r: Math.random() * 6 + 4,
-        d: Math.random() * 50 + 10,
-        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
-      }));
-
-      function drawConfetti() {
-        ctx.clearRect(0, 0, confetti.width, confetti.height);
-        pieces.forEach((p) => {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, false);
-          ctx.fillStyle = p.color;
-          ctx.fill();
-        });
-        update();
-        requestAnimationFrame(drawConfetti);
+      function showFinal() {
+        stage1.classList.add("hidden");
+        stage2.classList.add("hidden");
+        stage3.classList.add("hidden");
+        final.classList.remove("hidden");
+        fireConfetti();
+        bgm.play().catch(() => {});
       }
 
-      function update() {
-        pieces.forEach((p) => {
-          p.y += Math.cos(p.d) + 1 + p.r / 2;
-          p.x += Math.sin(p.d);
-          if (p.y > confetti.height) p.y = 0;
-        });
+      // confetti
+      const confettiCanvas = document.querySelector(".confetti");
+      const ctx = confettiCanvas.getContext("2d");
+      function fireConfetti() {
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
+        const colors = ["#4c8fff", "#a8d4ff", "#ffd27a", "#ffffff"];
+        const pieces = Array.from({ length: 80 }, () => ({
+          x: Math.random() * confettiCanvas.width,
+          y: Math.random() * -200,
+          vy: 2 + Math.random() * 6,
+          size: 6 + Math.random() * 8,
+          rot: Math.random() * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+        }));
+        let t = 0;
+        function anim() {
+          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+          t += 1;
+          for (const p of pieces) {
+            p.y += p.vy;
+            p.x += Math.sin(t / 10 + p.rot) * 1.2;
+            p.rot += 0.2;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            ctx.restore();
+          }
+          if (t < 260) requestAnimationFrame(anim);
+          else ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        }
+        anim();
       }
 
-      function startConfetti() {
-        drawConfetti();
-      }
+      // mute toggle
+      muteBtn.onclick = () => {
+        muted = !muted;
+        bgm.muted = muted;
+        muteBtn.textContent = muted ? "🔇" : "🔊";
+      };
     </script>
   </body>
 </html>
