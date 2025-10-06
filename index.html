@@ -156,14 +156,14 @@
 
       <div id="final" class="hidden fade">
         <h2>🎉 Selamat Ulang Tahun, Abang! 💙</h2>
-        <p>
-          Semoga di umur yang baru ini, Abang selalu sehat, bahagia, dan makin
-          sukses yaa 💪🌟<br /><br />
-          Semoga hal-hal baik terus datang ke hidup Abang 🤍<br /><br />
-          Makasih udah jadi orang baik dan selalu sabar 🥺💙 <br /><br />
-          Jangan bosan-bosan sama adek yaaa😝😝 <br />
-          <br />
-          Sekali lagi Selamat Ulang Tahun abanggg!!🎉🎉
+        <p style="line-height: 1.7">
+          Semoga di umur yang baru ini Abang selalu diberi kesehatan,
+          kebahagiaan, dan kesuksesan di setiap langkahnya 💪🌟<br /><br />
+          Jangan suka lupa makan yaa 😝 biar tetap kuat dan semangat ngejar
+          mimpi!<br /><br />
+          Semoga hal-hal baik terus berdatangan ke hidup Abang 🤍<br /><br />
+          Makasih udah jadi orang baik, sabar, dan perhatian banget 🥺💙<br /><br />
+          Sekali lagi, selamat ulang tahun Abang tercintaa! 🎂🎉
         </p>
         <button id="restart" class="restart">🔁 Main Lagi Yuk</button>
       </div>
@@ -171,7 +171,7 @@
 
     <audio id="bgm" loop preload="auto">
       <source
-        src="https://cdn.pixabay.com/download/audio/2023/03/28/audio_1a8e8d5a2a.mp3?filename=happy-birthday-to-you-25541.mp3"
+        src="https://www.bensound.com/bensound-music/bensound-littleidea.mp3"
         type="audio/mpeg"
       />
     </audio>
@@ -198,14 +198,17 @@
 
       let tries = 0;
       let muted = false;
-
       const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
-      open.onclick = () => {
+      open.addEventListener("click", () => {
+        bgm.volume = 0.7;
+        bgm.play().catch(() => {
+          alert("Klik tombol unmute (🔊) kalau musik belum terdengar 🎵");
+        });
         cover.classList.add("hidden");
         stage1.classList.remove("hidden");
-        bgm.play().catch(() => {});
-      };
+      });
+
       wrong1.onclick = () => {
         wrong1.textContent = "Heh itu salah 😜";
         setTimeout(() => (wrong1.textContent = "Buka Sekarang 💥"), 1200);
@@ -222,7 +225,7 @@
 
       runBtn.addEventListener(isTouch ? "click" : "mouseenter", () => {
         tries++;
-        if ((isTouch && tries >= 5) || (!isTouch && tries >= 5)) showFinal();
+        if (tries >= 5) showFinal();
         else moveToRandom(runBtn);
       });
       giveup.onclick = () => showFinal();
@@ -283,7 +286,6 @@
             ctx.restore();
           }
           if (t < 260) requestAnimationFrame(anim);
-          else ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
         })();
       }
 
